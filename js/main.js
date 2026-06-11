@@ -151,6 +151,27 @@ window.G = window.G || {};
     });
     $('btn-puzzle-back').addEventListener('click', Game.toMap);
 
+    $('btn-share').addEventListener('click', function () {
+      const n = Game.pieceCount();
+      const data = {
+        title: 'Esli — Las Piezas de Mí',
+        text: n >= 12
+          ? 'Armé el retrato completo de Esli, temblando todo el camino. «Hazlo con miedo.»'
+          : 'Voy ' + n + ' de 12 piezas del retrato de Esli. «Hazlo con miedo.»',
+        url: 'https://esli.vercel.app/'
+      };
+      if (navigator.share) {
+        navigator.share(data).catch(function () {});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(data.text + ' ' + data.url);
+        G.UI.modal({ html: '<h3>Enlace copiado</h3><p>Pégalo donde quieras. La Niebla odia la publicidad.</p>' });
+      }
+    });
+
+    if ('serviceWorker' in navigator) {
+      try { navigator.serviceWorker.register('sw.js'); } catch (e) {}
+    }
+
     G.UI.show('title');
   }
 

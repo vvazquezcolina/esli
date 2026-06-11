@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head><meta charset="utf-8"><style>html,body{margin:0;padding:0;overflow:hidden;background:#000}</style></head>
+<body>
+<canvas id="ic" width="512" height="512"></canvas>
+<script src="../js/art.js"></script>
+<script src="../js/sprites.js"></script>
+<script>
+/* icono PWA: la cara de Esli sobre noche estrellada (cara al centro, zona segura maskable) */
+const ctx = document.getElementById('ic').getContext('2d');
+const S = 512;
+const rnd = G.Art.mulberry(12);
+const g = ctx.createLinearGradient(0, 0, 0, S);
+g.addColorStop(0, '#101c44'); g.addColorStop(1, '#0b1437');
+ctx.fillStyle = g; ctx.fillRect(0, 0, S, S);
+const af = G.Art.vortexAngle([
+  { x: S * 0.25, y: S * 0.2, r: 90, s: 1 },
+  { x: S * 0.8, y: S * 0.75, r: 80, s: -1 }
+]);
+G.Art.strokeField(ctx, 0, 0, S, S, ['#27408b', '#3f5fa3', '#16224e', '#5c7fc0'],
+  { n: 700, len: 26, width: 5, angleFn: af, rnd: rnd, alpha: 0.85, jitter: 0.3 });
+G.Art.star(ctx, S * 0.8, S * 0.17, 13, rnd);
+/* bufanda */
+ctx.fillStyle = '#147a6b';
+ctx.beginPath(); ctx.ellipse(S / 2, S * 1.04, S * 0.42, S * 0.26, 0, 0, 7); ctx.fill();
+ctx.fillStyle = '#f1c40f';
+ctx.beginPath(); ctx.arc(S * 0.66, S * 0.86, 16, 0, 7); ctx.fill();
+/* cara grande al centro */
+G.Sprites.esliFace(ctx, S / 2, S * 0.5, S * 0.26, 'brave', 21);
+</script>
+</body>
+</html>

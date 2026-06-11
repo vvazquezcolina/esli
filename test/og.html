@@ -6,7 +6,7 @@
 <script src="../js/art.js"></script>
 <script src="../js/sprites.js"></script>
 <script>
-/* compone la imagen Open Graph con el arte del juego */
+/* imagen Open Graph SIN spoilers: el retrato a medio armar, comido por la niebla */
 const ctx = document.getElementById('og').getContext('2d');
 const W = 1200, H = 630;
 const rnd = G.Art.mulberry(7);
@@ -24,43 +24,54 @@ G.Art.star(ctx, W * 0.55, H * 0.13, 10, rnd);
 G.Art.star(ctx, W * 0.94, H * 0.18, 8, rnd);
 G.Art.star(ctx, W * 0.47, H * 0.86, 7, rnd);
 
-/* retrato enmarcado, ligeramente inclinado */
-const port = G.Sprites.selfPortrait();
-const ph = 520, pw = ph * 360 / 480, px = 70, py = (H - ph) / 2;
+/* retrato EN PROCESO: solo algunas piezas; el resto, niebla con grietas */
+const port = G.Sprites.selfPortrait();          /* 360x480 */
+const wip = document.createElement('canvas');
+wip.width = 360; wip.height = 480;
+const wctx = wip.getContext('2d');
+const PC = 3, PR = 4, pw = 120, ph = 120;
+const visibles = { '1,0': 1, '0,1': 1, '1,1': 1, '2,1': 1, '1,2': 1, '0,3': 1 };
+for (let r = 0; r < PR; r++) {
+  for (let c = 0; c < PC; c++) {
+    if (visibles[c + ',' + r]) {
+      wctx.drawImage(port, c * pw, r * ph, pw, ph, c * pw, r * ph, pw, ph);
+    } else {
+      wctx.drawImage(G.Sprites.fogTexture(pw, ph, r * 7 + c * 3 + 2), c * pw, r * ph);
+    }
+  }
+}
+/* grietas oscuras (todavía no doradas: eso se gana jugando) */
+wctx.strokeStyle = 'rgba(12,16,38,.85)'; wctx.lineWidth = 2;
+for (let c = 1; c < PC; c++) { wctx.beginPath(); wctx.moveTo(c * pw, 0); wctx.lineTo(c * pw, 480); wctx.stroke(); }
+for (let r = 1; r < PR; r++) { wctx.beginPath(); wctx.moveTo(0, r * ph); wctx.lineTo(360, r * ph); wctx.stroke(); }
+
+const phh = 520, pww = phh * 360 / 480, px = 70, py = (H - phh) / 2;
 ctx.save();
-ctx.translate(px + pw / 2, py + ph / 2); ctx.rotate(-0.02);
-ctx.fillStyle = '#3a2c12'; ctx.fillRect(-pw / 2 - 16, -ph / 2 - 16, pw + 32, ph + 32);
-ctx.fillStyle = '#6b4a2a'; ctx.fillRect(-pw / 2 - 10, -ph / 2 - 10, pw + 20, ph + 20);
-ctx.drawImage(port, -pw / 2, -ph / 2, pw, ph);
+ctx.translate(px + pww / 2, py + phh / 2); ctx.rotate(-0.02);
+ctx.fillStyle = '#3a2c12'; ctx.fillRect(-pww / 2 - 16, -phh / 2 - 16, pww + 32, phh + 32);
+ctx.fillStyle = '#6b4a2a'; ctx.fillRect(-pww / 2 - 10, -phh / 2 - 10, pww + 20, phh + 20);
+ctx.drawImage(wip, -pww / 2, -phh / 2, pww, phh);
 ctx.restore();
 
 /* texto */
 ctx.fillStyle = '#f5d76e';
 ctx.font = 'bold 150px Georgia';
 ctx.shadowColor = 'rgba(241,196,15,.45)'; ctx.shadowBlur = 26;
-ctx.fillText('ESLI', 540, 235);
+ctx.fillText('ESLI', 540, 225);
 ctx.shadowBlur = 0;
 ctx.fillStyle = '#f6ecd0';
 ctx.font = 'italic 46px Georgia';
-ctx.fillText('Las Piezas de Mí', 545, 302);
+ctx.fillText('Las Piezas de Mí', 545, 292);
 ctx.fillStyle = '#f5d76e';
-ctx.font = 'italic 42px Georgia';
-ctx.fillText('«Hazlo con miedo.»', 545, 390);
-ctx.fillStyle = 'rgba(246,236,208,.88)';
-ctx.font = '28px Georgia';
-ctx.fillText('Un puzzle pintado a pinceladas,', 545, 450);
-ctx.fillText('donde el miedo te hace más fuerte.', 545, 486);
-
-/* los tres, en medallones */
-function circ(img, cx, cy, r) {
-  ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.clip();
-  ctx.drawImage(img, cx - r, cy - r, r * 2, r * 2); ctx.restore();
-  ctx.lineWidth = 5; ctx.strokeStyle = '#c87f0a';
-  ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.stroke();
-}
-circ(G.Sprites.portrait('esli', 'brave'), 595, 558, 52);
-circ(G.Sprites.portrait('annie'), 715, 558, 52);
-circ(G.Sprites.portrait('chiquis'), 835, 558, 52);
+ctx.font = 'italic 44px Georgia';
+ctx.fillText('«Hazlo con miedo.»', 545, 388);
+ctx.fillStyle = 'rgba(246,236,208,.9)';
+ctx.font = '30px Georgia';
+ctx.fillText('La Niebla Gris rompió tu retrato', 545, 455);
+ctx.fillText('en doce pedazos. Ve por ellos.', 545, 495);
+ctx.font = 'italic 24px Georgia';
+ctx.fillStyle = 'rgba(246,236,208,.6)';
+ctx.fillText('gratis · ligero · pintado a pinceladas', 545, 560);
 </script>
 </body>
 </html>

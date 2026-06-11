@@ -1,4 +1,4 @@
-<p align="center"><img src="og.png" alt="Esli — Las Piezas de Mí" width="720"></p>
+<p align="center"><img src="og.jpg" alt="Esli — Las Piezas de Mí" width="720"></p>
 
 # Esli — Las Piezas de Mí
 
@@ -21,19 +21,17 @@ registro, ~110 KB. Corre hasta en el cel más humilde.
 - **El miedo es tu arma.** Cada golpe que recibes sube tu barra de miedo — y
   tu daño con ella, hasta +75%. No esperas a que se te quite: pegas con él.
   La mecánica es la moraleja.
-- **Cada cuadro se juega distinto.** Combates match-3, memoramas bajo la
-  cobija, cuadros rotos cuyos fragmentos acomodas pieza a pieza, estrellas
-  que encender en orden mientras el Remolino las renumera, y un eco que
-  repetir como campanada. Los jefes hacen trampa cada quien a su manera.
-- **Compañía pequeña y feroz.** Annie, alpaca bebé blanca que abriga (escudo
-  de lana). Chiquis, chihuahua de veinte centímetros que no le teme a nada de
-  más de veinte centímetros (su ladrido retrasa al monstruo).
+- **Cada cuadro se juega distinto.** Combates match-3, memoramas, cuadros
+  rotos cuyos fragmentos acomodas pieza a pieza, estrellas que encender en
+  orden y un eco que repetir como campanada. Cada jefe hace trampa a su
+  manera; descubrir cómo es parte del chiste.
 - **Doce cuadros, doce miedos.** Del *Trigal con cuervos* a *La noche
-  estrellada* y el *Almendro en flor*: cada nivel es un homenaje a Van Gogh y
-  cada jefe un miedo con voz propia — la Duda trae lista por escrito, la
-  Cobija te dice «cinco minutitos más».
-- **Final kintsugi.** El retrato no queda perfecto: queda con grietas de oro.
-  Ese es el punto.
+  estrellada* y el *Almendro en flor*: cada nivel es un homenaje a Van Gogh
+  y cada jefe un miedo con voz propia.
+- **No vas sola.** En el camino se te unen dos compañeros chiquitos y
+  feroces. No te decimos quiénes: ellos se presentan solos.
+- **Cada victoria devuelve una pieza de tu retrato.** Lo que pasa cuando
+  está completo, se queda entre Esli y tú.
 
 ## Por dentro
 

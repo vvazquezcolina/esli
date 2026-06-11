@@ -4,21 +4,34 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0e1a40">
-<meta name="description" content="Esli perdió las piezas de su autorretrato y va a recuperarlas temblando. Un puzzle pintado a pinceladas, estilo Van Gogh, donde el miedo te hace más fuerte. Gratis, ligero, juega desde tu cel.">
+<meta name="description" content="La Niebla Gris rompió el retrato de Esli en doce pedazos y los escondió en doce cuadros pintados a pinceladas. Recupéralos temblando: aquí el miedo te hace más fuerte. Gratis y ligero, juega desde tu cel.">
+<link rel="canonical" href="https://esli.vercel.app/">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Esli — Las Piezas de Mí">
+<meta property="og:locale" content="es_MX">
+<meta property="og:url" content="https://esli.vercel.app/">
 <meta property="og:title" content="Esli — Las Piezas de Mí">
-<meta property="og:description" content="Hazlo con miedo. Un puzzle pintado a mano donde el miedo te hace más fuerte. 12 cuadros, 12 miedos, una alpaca y un chihuahua.">
-<meta property="og:image" content="https://esli.vercel.app/og.png">
+<meta property="og:description" content="La Niebla Gris rompió tu retrato en doce pedazos. Ve por ellos. Temblando, pero ve. «Hazlo con miedo.»">
+<meta property="og:image" content="https://esli.vercel.app/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Esli — Las Piezas de Mí">
-<meta name="twitter:description" content="Hazlo con miedo. Un puzzle pintado a mano donde el miedo te hace más fuerte.">
-<meta name="twitter:image" content="https://esli.vercel.app/og.png">
+<meta name="twitter:description" content="La Niebla Gris rompió tu retrato en doce pedazos. Ve por ellos. «Hazlo con miedo.»">
+<meta name="twitter:image" content="https://esli.vercel.app/og.jpg">
 <title>Esli — Las Piezas de Mí · Hazlo con miedo</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="css/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"VideoGame","name":"Esli — Las Piezas de Mí",
+"url":"https://esli.vercel.app/","image":"https://esli.vercel.app/og.jpg",
+"description":"La Niebla Gris rompió el retrato de Esli en doce pedazos y los escondió en doce cuadros. Un juego de puzzles pintado a pinceladas donde el miedo te hace más fuerte.",
+"inLanguage":"es","genre":["Puzzle","Aventura"],"gamePlatform":"Web browser",
+"applicationCategory":"Game","isAccessibleForFree":true,"operatingSystem":"Any"}
+</script>
 </head>
 <body>
 <canvas id="bg"></canvas>
@@ -96,6 +109,7 @@
     </header>
     <div class="puzzle-wrap"><canvas id="puzzle-canvas" width="360" height="480"></canvas></div>
     <p id="puzzle-caption" class="puzzle-caption"></p>
+    <button id="btn-share" class="btn btn-small btn-share">Compartir el viaje</button>
   </section>
 
 </main>
