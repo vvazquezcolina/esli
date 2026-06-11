@@ -54,8 +54,27 @@
           var rect = board.getBoundingClientRect();
           var cell = rect.width / 7;
           var tries = 0;
+          var perfectEco = /eco=1/.test(location.search);
           var iv2 = setInterval(function () {
-            if (++tries > 16) { clearInterval(iv2); console.log('SMOKE-DONE swaps simulados'); return; }
+            if (++tries > (perfectEco ? 60 : 20)) { clearInterval(iv2); console.log('SMOKE-DONE acciones simuladas'); return; }
+            /* eco perfecto: repite la secuencia correcta (verifica progresión) */
+            if (perfectEco && G.Modes.eco._debug) {
+              var d = G.Modes.eco._debug();
+              if (d && !d.playing) {
+                console.log('SMOKE-ECO ronda', d.round, 'pos', d.pos);
+                var v = board.querySelectorAll('.vitral')[d.seq[d.pos]];
+                if (v) v.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+              }
+              return;
+            }
+            /* minijuegos: clic en elementos del modo */
+            var modeEls = board.querySelectorAll('.card:not(.cleared), .frag, .star-btn:not(.lit), .vitral');
+            if (modeEls.length) {
+              var me = modeEls[(Math.random() * modeEls.length) | 0];
+              me.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+              return;
+            }
+            /* match-3: arrastre */
             var r = (Math.random() * 7) | 0, c = (Math.random() * 6) | 0;
             var x = rect.left + cell * (c + 0.5), y = rect.top + cell * (r + 0.5);
             function pe(type, xx, yy) {

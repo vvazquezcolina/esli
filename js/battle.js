@@ -45,6 +45,40 @@ window.G = window.G || {};
     });
   }
 
+  /* ---------- API que usan los minijuegos (modes.js) ---------- */
+  const api = {
+    config: function (o) { if (!S) return; for (const k in o) S[k] = o[k]; updateAll(); },
+    progress: function (p) {
+      if (!S || S.over) return true;
+      S.mhp = Math.max(0, Math.round(S.L.monster.hp * (1 - p)));
+      updateBars();
+      if (p >= 1) { win(); return true; }
+      return false;
+    },
+    tick: function () {
+      if (!S || S.over) return;
+      S.counter--;
+      if (S.counter <= 0) monsterAct(); else updateAll();
+    },
+    monsterNow: function () { if (S && !S.over) monsterAct(); },
+    charge: function (n) {
+      if (!S) return;
+      S.coraje = Math.min(COST.coraje, S.coraje + n);
+      if (S.hasAnnie) S.annieE = Math.min(COST.annie, S.annieE + n);
+      if (S.hasChiquis) S.chiqE = Math.min(COST.chiquis, S.chiqE + n);
+      updateAll();
+    },
+    fearDown: function (n) { if (S) { S.miedo = Math.max(0, S.miedo - n); updateAll(); } },
+    fearUp: function (n) { if (S) { S.miedo = Math.min(100, S.miedo + n); updateAll(); } },
+    locked: function () { return !S || S.resolving || S.over; },
+    over: function () { return !S || S.over; },
+    fct: function (t, c, a) { G.UI.fct(t, c, a); },
+    sfx: function (n, a) { G.Sfx.play(n, a); },
+    tone: function (f, d, t, v, dl) {
+      if (!G.Sfx.muted && G.Sfx.ctx) G.Sfx.tone(f, d, t, v, dl);
+    }
+  };
+
   /* ---------- inicio / fin ---------- */
   B.start = function (levelIdx) {
     cacheEls();
@@ -58,10 +92,11 @@ window.G = window.G || {};
       tileDmg: 6 + ((pieces / 4) | 0), corajeDmg: 26 + pieces,
       hasAnnie: levelIdx >= 2, hasChiquis: levelIdx >= 5,
       mhp: L.monster.hp, counter: L.monster.every,
+      mode: L.mode || 'match3', tickWord: ['jugada', 'jugadas'],
+      noCounter: false, fixedIntent: '',
       shield: false, panic: false, resolving: false, over: false, bossFlip: false,
       hint: {}
     };
-    board = G.Board.create(COLS, ROWS, L.ncolors);
     sel = null; ptr = null;
     els.mName.textContent = L.monster.name + ' · ' + L.cuadro;
     els.mCanvas.style.opacity = 1;
@@ -70,7 +105,15 @@ window.G = window.G || {};
     mc.drawImage(G.Sprites.monster(L.monster.key), 0, 0, 200, 200);
     els.abAnnie.classList.toggle('hidden', !S.hasAnnie);
     els.abChiquis.classList.toggle('hidden', !S.hasChiquis);
-    renderBoardFull();
+    if (S.mode === 'match3') {
+      board = G.Board.create(COLS, ROWS, L.ncolors);
+      renderBoardFull();
+    } else {
+      board = null;
+      els.board.innerHTML = '';
+      tileEls = {};
+      G.Modes[S.mode].start({ board: els.board, cfg: L.modeCfg || {}, api: api });
+    }
     updateAll();
     G.UI.show('battle', L.pal, levelIdx);
   };
@@ -132,13 +175,13 @@ window.G = window.G || {};
     sel = null;
   }
   function onDown(e) {
-    if (!S || S.over || S.resolving) return;
+    if (!S || S.over || S.resolving || S.mode !== 'match3') return;
     const p = cellFromEvent(e);
     if (!p) return;
     ptr = { id: e.pointerId, x: e.clientX, y: e.clientY, cell: p, moved: false };
   }
   function onMove(e) {
-    if (!ptr || e.pointerId !== ptr.id || !S || S.resolving || S.over) return;
+    if (!ptr || e.pointerId !== ptr.id || !S || S.resolving || S.over || S.mode !== 'match3') return;
     const dx = e.clientX - ptr.x, dy = e.clientY - ptr.y;
     if (Math.abs(dx) < 16 && Math.abs(dy) < 16) return;
     const p1 = ptr.cell;
@@ -153,7 +196,7 @@ window.G = window.G || {};
   function onUp(e) {
     if (!ptr || e.pointerId !== ptr.id) { ptr = null; return; }
     const p = ptr.cell; ptr = null;
-    if (!S || S.resolving || S.over) return;
+    if (!S || S.resolving || S.over || S.mode !== 'match3') return;
     if (sel && Math.abs(sel.r - p.r) + Math.abs(sel.c - p.c) === 1) {
       const a = sel; clearSel(); attemptSwap(a, p);
     } else if (sel && sel.r === p.r && sel.c === p.c) {
@@ -318,27 +361,37 @@ window.G = window.G || {};
     const eff = nextEffect();
     if (m.effect === 'boss') S.bossFlip = !S.bossFlip;
     S.counter = m.every;
+    S.resolving = true;
     setTimeout(function () {
       if (!S || S.over) return;
       let dmg = m.atk, fear = 12;
       if (eff === 'graznido') { dmg = Math.ceil(m.atk * 0.5); fear = 22; }
       else if (eff === 'niebla') {
         dmg = Math.ceil(m.atk * 0.6); fear = 8;
-        const added = G.Board.addFog(board, 2, 6);
-        for (let i = 0; i < added.length; i++) {
-          const a = added[i];
-          if (tileEls[a.oldId]) { tileEls[a.oldId].remove(); delete tileEls[a.oldId]; }
-          mkTileEl(board.g[a.r][a.c], a.r, a.c);
+        if (S.mode === 'match3') {
+          const added = G.Board.addFog(board, 2, 6);
+          for (let i = 0; i < added.length; i++) {
+            const a = added[i];
+            if (tileEls[a.oldId]) { tileEls[a.oldId].remove(); delete tileEls[a.oldId]; }
+            mkTileEl(board.g[a.r][a.c], a.r, a.c);
+          }
+          if (added.length) G.UI.fct('¡niebla en el tablero!', 'fear', 'board');
         }
-        if (added.length) G.UI.fct('¡niebla en el tablero!', 'fear', 'board');
       } else if (eff === 'pinta') {
         dmg = Math.ceil(m.atk * 0.7); fear = 10;
-        const ch = G.Board.repaint(board, 3);
-        for (let i = 0; i < ch.length; i++) {
-          const el = tileEls[ch[i].id];
-          if (el) el.className = 'tile c' + ch[i].color;
+        if (S.mode === 'match3') {
+          const ch = G.Board.repaint(board, 3);
+          for (let i = 0; i < ch.length; i++) {
+            const el = tileEls[ch[i].id];
+            if (el) el.className = 'tile c' + ch[i].color;
+          }
+          if (ch.length) G.UI.fct('¡escarcha repinta fichas!', 'fear', 'board');
         }
-        if (ch.length) G.UI.fct('¡escarcha repinta fichas!', 'fear', 'board');
+      }
+      /* travesura propia del minijuego (revolver números, tapar cartas…) */
+      if (S.mode !== 'match3') {
+        const mo = G.Modes[S.mode];
+        if (mo && mo.onAttack) mo.onAttack();
       }
       if (S.shield) {
         S.shield = false;
@@ -353,9 +406,17 @@ window.G = window.G || {};
         els.eCanvas.classList.add('ouch');
         G.Sfx.play('ouch');
         buzz(40);
-        if (S.miedo >= 100) { S.panic = true; G.UI.fct('¡Pánico!', 'fear', 'hero'); }
+        if (S.miedo >= 100 && S.mode === 'match3') { S.panic = true; G.UI.fct('¡Pánico!', 'fear', 'hero'); }
       }
       if (S.hp <= 0) { lose(); return; }
+      if (S.mode !== 'match3' && S.miedo >= 100) {
+        /* en los minijuegos el pánico congela un instante */
+        S.miedo = 60;
+        G.UI.fct('¡Pánico! Esli se congela…', 'fear', 'hero');
+        updateAll();
+        setTimeout(function () { if (S && !S.over) { S.resolving = false; updateAll(); } }, 1100);
+        return;
+      }
       S.resolving = false;
       updateAll();
     }, 280);
@@ -366,9 +427,16 @@ window.G = window.G || {};
   function useCoraje() {
     if (!S || S.over || S.resolving || S.coraje < COST.coraje) return;
     S.coraje = 0;
-    const d = Math.round(S.corajeDmg * fearBuff());
     G.UI.fct('¡HAZLO CON MIEDO!', 'quote', 'hero');
     G.Sfx.play('coraje');
+    if (S.mode !== 'match3') {
+      /* en los minijuegos, el Coraje resuelve un paso por ti */
+      const mo = G.Modes[S.mode];
+      if (mo && mo.solveOne) mo.solveOne();
+      updateAll();
+      return;
+    }
+    const d = Math.round(S.corajeDmg * fearBuff());
     hitMonster(d);
     if (S.mhp <= 0) { win(); return; }
     updateAll();
@@ -386,9 +454,21 @@ window.G = window.G || {};
   function useChiquis() {
     if (!S || S.over || S.resolving || !S.hasChiquis || S.chiqE < COST.chiquis) return;
     S.chiqE = 0;
+    G.Sfx.play('bark');
+    if (S.mode !== 'match3') {
+      const mo = G.Modes[S.mode];
+      if (mo && mo.chiquis) {
+        mo.chiquis();
+        G.UI.fct('¡GUAU! Chiquis te cubre un fallo', 'quote', 'monster');
+      } else {
+        S.counter = Math.min(S.counter + 2, 9);
+        G.UI.fct('¡GUAU! el monstruo duda', 'quote', 'monster');
+      }
+      updateAll();
+      return;
+    }
     S.counter = Math.min(S.counter + 2, 9);
     G.UI.fct('¡GUAU! el monstruo duda', 'quote', 'monster');
-    G.Sfx.play('bark');
     hitMonster(8);
     if (S.mhp <= 0) { win(); return; }
     updateAll();
@@ -450,8 +530,13 @@ window.G = window.G || {};
     updateAbility(els.abCoraje, S.coraje, COST.coraje, true, 'coraje');
     updateAbility(els.abAnnie, S.annieE, COST.annie, S.hasAnnie, 'annie');
     updateAbility(els.abChiquis, S.chiqE, COST.chiquis, S.hasChiquis, 'chiquis');
-    const eff = nextEffect();
-    els.mIntent.textContent = (G.DATA.EFFECT_NAMES[eff] || eff) + ' en ' + S.counter + (S.counter === 1 ? ' jugada' : ' jugadas');
+    if (S.noCounter) {
+      els.mIntent.textContent = S.fixedIntent;
+    } else {
+      const eff = nextEffect();
+      els.mIntent.textContent = (G.DATA.EFFECT_NAMES[eff] || eff) + ' en ' + S.counter + ' ' +
+        (S.counter === 1 ? S.tickWord[0] : S.tickWord[1]);
+    }
     els.vignette.style.opacity = S.miedo / 140;
     const mood = S.miedo >= 55 ? 'scared' : 'normal';
     if (S._mood !== mood) {

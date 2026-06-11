@@ -21,6 +21,10 @@ registro, ~110 KB. Corre hasta en el cel más humilde.
 - **El miedo es tu arma.** Cada golpe que recibes sube tu barra de miedo — y
   tu daño con ella, hasta +75%. No esperas a que se te quite: pegas con él.
   La mecánica es la moraleja.
+- **Cada cuadro se juega distinto.** Combates match-3, memoramas bajo la
+  cobija, cuadros rotos cuyos fragmentos acomodas pieza a pieza, estrellas
+  que encender en orden mientras el Remolino las renumera, y un eco que
+  repetir como campanada. Los jefes hacen trampa cada quien a su manera.
 - **Compañía pequeña y feroz.** Annie, alpaca bebé blanca que abriga (escudo
   de lana). Chiquis, chihuahua de veinte centímetros que no le teme a nada de
   más de veinte centímetros (su ladrido retrasa al monstruo).

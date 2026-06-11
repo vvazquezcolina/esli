@@ -167,6 +167,60 @@ body{
 
 .btn-flee{align-self:center;font-size:.74rem;padding:.25em .9em;min-height:30px;flex:0 0 auto}
 
+/* ---------- modo memorama ---------- */
+.card{position:absolute;padding:1.2%;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.card-inner{width:100%;height:100%;border-radius:14% 18% 12% 16%;border:2px solid var(--frame);
+  background:linear-gradient(150deg,#e8dcc0,#cdbf9a);position:relative;
+  display:flex;align-items:center;justify-content:center;transition:transform .18s, opacity .25s}
+.card-inner::after{content:'~';color:rgba(58,44,18,.5);font-size:1.2em;font-style:italic}
+.card.up .card-inner{background:radial-gradient(circle at 32% 28%, var(--t-light), var(--t-dark));
+  border-color:rgba(0,0,0,.4)}
+.card.up .card-inner::after{content:attr(data-glyph);color:rgba(255,255,255,.85);
+  font-size:1.3em;text-shadow:1px 1px 2px rgba(0,0,0,.6)}
+.card.cleared{pointer-events:none}
+.card.cleared .card-inner{opacity:0;transform:scale(.3)}
+.card.fogged .card-inner{background:radial-gradient(circle at 40% 35%, #aeb3c2, #565d72);
+  border-style:dashed}
+.card.fogged .card-inner::after{content:'≋';color:rgba(255,255,255,.6)}
+.card.wrong .card-inner{animation:shakeb .26s ease}
+
+/* ---------- modo restaura ---------- */
+.frag{position:absolute;cursor:pointer;border:1px solid rgba(10,12,30,.55);
+  background-repeat:no-repeat;transition:filter .15s}
+.frag.sel-f{filter:brightness(1.35);z-index:2;outline:3px solid var(--star)}
+.frag.ok{outline:2px solid rgba(212,175,55,.85);outline-offset:-2px}
+.frag.swapped{animation:fragpop .25s ease}
+@keyframes fragpop{0%{transform:scale(.92)}100%{transform:scale(1)}}
+
+/* ---------- modo estrellas ---------- */
+.star-btn{position:absolute;width:44px;height:44px;transform:translate(-50%,-50%);
+  border-radius:50%;border:2px solid rgba(245,215,110,.5);cursor:pointer;
+  background:radial-gradient(circle at 40% 35%, #2a3a6e, #141d44);
+  color:#f5d76e;font-family:inherit;font-size:.95rem;font-style:italic}
+.star-btn.lit{background:radial-gradient(circle at 45% 40%, #f9efc0, #f1c40f);
+  color:#6b4a04;border-color:#f9efc0;
+  box-shadow:0 0 14px rgba(241,196,15,.8), 0 0 30px rgba(241,196,15,.35)}
+.star-btn.hint{animation:abpulse .8s ease-in-out infinite;border-color:var(--star)}
+.star-btn.wrong{animation:shakeb .26s ease}
+
+/* ---------- modo eco ---------- */
+.vitral-grid{position:absolute;inset:7%;display:grid;grid-template-columns:1fr 1fr;
+  gap:6%;align-items:stretch}
+.vitral{border:3px solid var(--frame);border-radius:46% 46% 8% 8% / 60% 60% 6% 6%;
+  cursor:pointer;position:relative;opacity:.8;
+  background:radial-gradient(circle at 50% 35%, var(--v-light), var(--v-dark))}
+.vitral::after{content:'';position:absolute;inset:12% 44% 8% 44%;background:rgba(10,12,30,.35);
+  border-radius:40% 40% 4% 4%}
+.vitral.v0{--v-light:#f5d76e;--v-dark:#9a7d0a}
+.vitral.v1{--v-light:#7da7e8;--v-dark:#1f4e96}
+.vitral.v2{--v-light:#6fcf8f;--v-dark:#145a32}
+.vitral.v3{--v-light:#b39ddb;--v-dark:#4a235a}
+.vitral.on{opacity:1;filter:brightness(1.7) saturate(1.2);
+  box-shadow:0 0 18px rgba(245,215,110,.55)}
+.mode-msg{position:absolute;left:50%;top:1.5%;transform:translateX(-50%);z-index:3;
+  font-size:.8rem;font-style:italic;color:var(--star2);text-shadow:1px 1px 2px #000;
+  white-space:nowrap;pointer-events:none}
+
 #fct-layer{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:hidden}
 .fct{position:absolute;transform:translate(-50%,0);font-size:1.05rem;font-style:italic;
   color:#fff;text-shadow:1px 1px 0 #000, 0 0 8px rgba(0,0,0,.7);

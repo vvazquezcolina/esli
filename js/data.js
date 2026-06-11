@@ -71,27 +71,31 @@ window.G = window.G || {};
     lvl({
       cuadro: 'La noche estrellada',
       ncolors: 5,
-      monster: { name: 'Remolino Inquieto', key: 'remolino', hp: 85, atk: 7, every: 3, effect: 'graznido' },
+      mode: 'estrellas',
+      modeCfg: { stars: 14 },
+      monster: { name: 'Remolino Inquieto', key: 'remolino', hp: 85, atk: 7, every: 6, effect: 'graznido' },
       pal: { sky: ['#0b1437', '#1b2a5e'], skyStrokes: ['#27408b', '#3f5fa3', '#1f618d', '#f5d76e'], ground: '#0e2240', groundStrokes: ['#1a3a5c', '#254e78', '#0d2b45'] },
       pre: [
-        { who: 'narrador', text: 'El cielo gira y gira. Un remolino piensa demasiadas cosas a la vez.' },
-        { who: 'monster', text: '—¿Yqué tal que? ¿yqué tal que? ¿YQUÉTALQUE? —zumba el Remolino.' },
-        { who: 'annie', text: '—Las fichas naranjas llenan mi lanita. Cuando esté llena, tócame: mi abrigo detiene el siguiente golpe y te sana tantito.' }
+        { who: 'narrador', text: 'El cielo gira y gira. Las estrellas se apagaron del puro susto.' },
+        { who: 'monster', text: '—¿Yqué tal que? ¿yqué tal que? ¿YQUÉTALQUE? —zumba el Remolino, revolviéndolo todo.' },
+        { who: 'esli', text: 'Respira. Voy a encender las estrellas en orden: 1, 2, 3… Y si este loco las revuelve, las vuelvo a contar. Contar también calma.' }
       ],
       post: [
-        { who: 'esli', text: 'Shhh. ¿Ya viste? Girar también puede ser bonito. Pregúntale a las estrellas.' },
+        { who: 'esli', text: 'Shhh. ¿Ya viste? El cielo entero, contado y encendido.' },
         { who: 'narrador', text: 'El remolino se deshace en estrellas quietas. Otra pieza recuperada.' }
       ]
     }),
     lvl({
       cuadro: 'El dormitorio en Arlés',
       ncolors: 5,
-      monster: { name: 'La Cobija Viviente', key: 'cobija', hp: 100, atk: 9, every: 4, effect: 'golpe' },
+      mode: 'memoria',
+      modeCfg: { pairs: 8 },
+      monster: { name: 'La Cobija Viviente', key: 'cobija', hp: 100, atk: 9, every: 3, effect: 'golpe' },
       pal: { sky: ['#6d9dc5', '#9ec3df'], skyStrokes: ['#7fb3d5', '#a9cce3', '#d4e6f1', '#f5d76e'], ground: '#b9770e', groundStrokes: ['#d68910', '#a04000', '#873600', '#dc7633'] },
       pre: [
         { who: 'narrador', text: 'Un cuartito acogedor. La cama es suave. Sospechosamente suave.' },
-        { who: 'monster', text: '—Cinco minutitos más. Mira qué tibio está aquí abajo —bosteza la Cobija.' },
-        { who: 'esli', text: '¡ESA FRASE ES MÍA! …Con razón da tanto miedo. ¡Arriba, Esli, las piezas no se buscan solas!' }
+        { who: 'monster', text: '—Cinco minutitos más. Mira qué tibio —bosteza la Cobija, escondiendo los colores bajo la tela.' },
+        { who: 'esli', text: '¡ESA FRASE ES MÍA! …Bueno. Voy a voltear las cartas y sacar los colores por pares. Memoria, no me falles ahorita.' }
       ],
       post: [
         { who: 'esli', text: 'Me llevo la siesta de recuerdo. Veinte minutos. Cronometrados. Con alarma.' },
@@ -106,7 +110,8 @@ window.G = window.G || {};
       pre: [
         { who: 'narrador', text: 'Un café dorado en la noche azul. En las mesas, sombras que cuchichean.' },
         { who: 'monster', text: '—¿Ya la vieron? Trae la bufanda toda chueca. ¿Quién se cree? —sisea el Murmullo.' },
-        { who: 'esli', text: 'La bufanda va así A PROPÓSITO. …No pienso explicarle mi outfit a unas sombras.' }
+        { who: 'esli', text: 'La bufanda va así A PROPÓSITO. …No pienso explicarle mi outfit a unas sombras.' },
+        { who: 'annie', text: '—Psst: aquí las fichas naranjas llenan mi lanita. Llena, tócame: detengo el siguiente golpe y te sano tantito.' }
       ],
       post: [
         { who: 'narrador', text: 'De abajo de una mesa sale disparado un perrito negro, ladrándole a las sombras una por una.' },
@@ -117,12 +122,14 @@ window.G = window.G || {};
     lvl({
       cuadro: 'Los lirios',
       ncolors: 6,
-      monster: { name: 'Espina Azul', key: 'espina', hp: 130, atk: 10, every: 3, effect: 'golpe' },
+      mode: 'restaura',
+      modeCfg: { grid: [3, 4], img: 'lirios', attackLine: '—¿Seguro va ahí? —pincha la Espina.' },
+      monster: { name: 'Espina Azul', key: 'espina', hp: 130, atk: 10, every: 4, effect: 'golpe' },
       pal: { sky: ['#4a7fb5', '#7fb3d5'], skyStrokes: ['#5c8ac9', '#86abdd', '#d4e6f1', '#f5d76e'], ground: '#1e8449', groundStrokes: ['#145a32', '#27ae60', '#7d5ba6', '#117a65'] },
       pre: [
-        { who: 'narrador', text: 'Un jardín de lirios morados. Uno crece torcido, de tanto mirar a los demás.' },
-        { who: 'monster', text: '—Aquel lirio es más alto. Aquel, más azul. Tú eres del montón —pincha la Espina.' },
-        { who: 'chiquis', text: '—¡Las fichas moradas llenan mi ladrido! Cuando esté listo, tócame: ¡GUAU!, y el monstruo tarda más en atacar.' }
+        { who: 'narrador', text: 'Un jardín de lirios morados, rajado en pedazos y revuelto. Uno de los lirios tiene espinas y opiniones.' },
+        { who: 'monster', text: '—Aquel es más alto. Aquel, más azul. Tu cuadro ni entero está —pincha la Espina.' },
+        { who: 'esli', text: 'Pues lo armo de nuevo: toco dos fragmentos y los intercambio hasta que el jardín respire. A ver quién se cansa primero.' }
       ],
       post: [
         { who: 'esli', text: '¿Del montón? El cuadro se llama LOS lirios, Espina. En plural. Ese siempre fue el chiste.' },
@@ -137,7 +144,8 @@ window.G = window.G || {};
       pre: [
         { who: 'narrador', text: 'Un campo recién sembrado bajo un sol enorme. Algo cuelga de un palo, vacío por dentro.' },
         { who: 'monster', text: '—Llevo años parado aquí y jamás espanté ni a un cuervo. Para qué sembrar, si nada funciona —cruje el Espantapájaros.' },
-        { who: 'esli', text: 'Al Cuervo lo espanté yo, fíjate. Y soy nueva. A lo mejor el problema no es el campo.' }
+        { who: 'esli', text: 'Al Cuervo lo espanté yo, fíjate. Y soy nueva. A lo mejor el problema no es el campo.' },
+        { who: 'chiquis', text: '—¡Aquí las fichas moradas llenan mi ladrido! Listo el ladrido, tócame: ¡GUAU!, y el monstruo se lo piensa dos veces.' }
       ],
       post: [
         { who: 'narrador', text: 'El Espantapájaros pidió quedarse a cuidar el trigal en serio esta vez. El trigal dijo que bueno.' },
@@ -147,12 +155,14 @@ window.G = window.G || {};
     lvl({
       cuadro: 'Barcas en la playa',
       ncolors: 6,
+      mode: 'memoria',
+      modeCfg: { pairs: 10, fog: true },
       monster: { name: 'Marea Gris', key: 'marea', hp: 165, atk: 10, every: 3, effect: 'niebla' },
       pal: { sky: ['#5d6d7e', '#85929e'], skyStrokes: ['#85929e', '#aab7c4', '#d6dbdf', '#5d6d7e'], ground: '#34495e', groundStrokes: ['#5d6d7e', '#aab7c4', '#2c3e50', '#d6dbdf'] },
       pre: [
-        { who: 'narrador', text: 'Barcas quietas frente a un mar sin color. La marea respira niebla.' },
-        { who: 'monster', text: '—¿Sabes qué hay del otro lado? Yo tampoco. NADIE SABE. ¿A poco no te da algo? —ruge la Marea.' },
-        { who: 'esli', text: 'Me da. Y aun así quiero ver. ¡Ojo: su niebla tapa fichas! Combina junto a ella para limpiarla.' }
+        { who: 'narrador', text: 'Barcas quietas frente a un mar sin color. La marea escondió lo que el mar quería decir.' },
+        { who: 'monster', text: '—¿Sabes qué hay debajo? Yo tampoco. NADIE SABE. ¿A poco no te da algo? —ruge la Marea.' },
+        { who: 'esli', text: 'Me da. Y aun así volteo las cartas, par por par. Si su niebla tapa alguna, un toque la limpia.' }
       ],
       post: [
         { who: 'annie', text: '—El mar ya tiene azul otra vez. Huele a sal y a que sí se pudo.' },
@@ -162,12 +172,14 @@ window.G = window.G || {};
     lvl({
       cuadro: 'La iglesia de Auvers',
       ncolors: 6,
-      monster: { name: 'Eco Solitario', key: 'eco', hp: 180, atk: 12, every: 3, effect: 'graznido' },
+      mode: 'eco',
+      modeCfg: { rounds: 5 },
+      monster: { name: 'Eco Solitario', key: 'eco', hp: 180, atk: 12, every: 99, effect: 'graznido' },
       pal: { sky: ['#1a2a52', '#27408b'], skyStrokes: ['#27408b', '#3f5fa3', '#16224e', '#f5d76e'], ground: '#145a32', groundStrokes: ['#1e8449', '#0b3d20', '#27ae60', '#117a65'] },
       pre: [
-        { who: 'narrador', text: 'Una iglesia azul en la noche. Adentro no hay nadie. Solo un eco que repite.' },
+        { who: 'narrador', text: 'Una iglesia azul en la noche. Adentro no hay nadie. Solo un eco que repite por las ventanas iluminadas.' },
         { who: 'monster', text: '—Sola… sola… sola… —repite el Eco.' },
-        { who: 'esli', text: '¿Sola? Vengo con una alpaca que abriga y un chihuahua que ruge. El eco está mal informado.' }
+        { who: 'esli', text: '¿Sabes qué le encanta a un eco? Que le contesten. Voy a escuchar su secuencia y devolvérsela igualita. Si fallo, se enoja.' }
       ],
       post: [
         { who: 'chiquis', text: '—¡GUAU! (Traducción: aquí nadie está solo mientras yo tenga pulmones.)' },
@@ -177,12 +189,14 @@ window.G = window.G || {};
     lvl({
       cuadro: 'El espejo rajado',
       ncolors: 6,
-      monster: { name: 'El Crítico', key: 'critico', hp: 200, atk: 13, every: 3, effect: 'golpe' },
+      mode: 'restaura',
+      modeCfg: { grid: [4, 4], img: 'retrato', attackLine: '—Estaba mejor antes —escupe el Crítico.' },
+      monster: { name: 'El Crítico', key: 'critico', hp: 200, atk: 13, every: 4, effect: 'golpe' },
       pal: { sky: ['#2c3e50', '#4d5656'], skyStrokes: ['#5d6d7e', '#34495e', '#85929e', '#aab7c4'], ground: '#283747', groundStrokes: ['#34495e', '#2c3e50', '#5d6d7e', '#1b2631'] },
       pre: [
-        { who: 'narrador', text: 'Un taller en penumbra. En el espejo roto vive alguien con tu cara y peor carácter.' },
-        { who: 'monster', text: '—Trazo flojo. Color equivocado. ¿A esto le llamas arte? —escupe el Crítico.' },
-        { who: 'esli', text: 'Le llamo MÍO. Que ya es más de lo que tú has pintado nunca.' }
+        { who: 'narrador', text: 'Un taller en penumbra. En el espejo roto está tu retrato, hecho pedazos y mal acomodado a propósito.' },
+        { who: 'monster', text: '—Trazo flojo. Color equivocado. Hasta roto se ve mejor —escupe el Crítico.' },
+        { who: 'esli', text: 'Es MI retrato y yo decido cómo se arma. Cada pieza en su lugar… y tú te callas tantito.' }
       ],
       post: [
         { who: 'esli', text: 'Gracias por los consejos. Los voy a usar… de trapo, para limpiar pinceles.' },
@@ -243,5 +257,6 @@ window.G = window.G || {};
     '<li>4 en línea crean una ficha <b>✦</b> que limpia fila y columna.</li>' +
     '<li>El miedo sube cuando te pegan… y entre <b>más miedo tengas, más fuerte pegas</b>. Hazlo con miedo.</li>' +
     '<li>La niebla gris del tablero se limpia haciendo combinaciones <b>junto a ella</b>.</li>' +
+    '<li><b>No todos los cuadros se pelean igual:</b> hay memoramas, fragmentos por acomodar, estrellas que encender en orden y un eco que repetir. Ahí, cada acierto carga a todo el equipo y el botón de <b>Coraje resuelve un paso por ti</b>.</li>' +
     '</ul>';
 })();
