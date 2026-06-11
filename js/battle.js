@@ -412,7 +412,7 @@ window.G = window.G || {};
       html: '<h3>La Niebla susurra…</h3><p>«¿Ves? Mejor ni lo intentes.»</p>' +
         '<p>Esli respira hondo. Las manos todavía le tiemblan. Perfecto: ya sabe pintar así.</p>',
       buttons: [
-        { label: 'Intentar de nuevo', cb: function () { B.start(idx); } },
+        { label: 'Otra pincelada', cb: function () { B.start(idx); } },
         { label: 'Volver al mapa', ghost: true, cb: function () { G.Game.toMap(); } }
       ]
     });

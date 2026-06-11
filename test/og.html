@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head><meta charset="utf-8"><style>html,body{margin:0;padding:0;overflow:hidden}</style></head>
+<body>
+<canvas id="og" width="1200" height="630"></canvas>
+<script src="../js/art.js"></script>
+<script src="../js/sprites.js"></script>
+<script>
+/* compone la imagen Open Graph con el arte del juego */
+const ctx = document.getElementById('og').getContext('2d');
+const W = 1200, H = 630;
+const rnd = G.Art.mulberry(7);
+const grad = ctx.createLinearGradient(0, 0, 0, H);
+grad.addColorStop(0, '#0b1437'); grad.addColorStop(1, '#1b2a5e');
+ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+const af = G.Art.vortexAngle([
+  { x: W * 0.62, y: H * 0.22, r: 130, s: 1 },
+  { x: W * 0.88, y: H * 0.6, r: 110, s: -1 },
+  { x: W * 0.3, y: H * 0.85, r: 120, s: 1 }
+]);
+G.Art.strokeField(ctx, 0, 0, W, H, ['#27408b', '#3f5fa3', '#5c7fc0', '#16224e', '#f5d76e'],
+  { n: 2200, len: 34, width: 4, angleFn: af, rnd: rnd, alpha: 0.8, jitter: 0.3 });
+G.Art.star(ctx, W * 0.55, H * 0.13, 10, rnd);
+G.Art.star(ctx, W * 0.94, H * 0.18, 8, rnd);
+G.Art.star(ctx, W * 0.47, H * 0.86, 7, rnd);
+
+/* retrato enmarcado, ligeramente inclinado */
+const port = G.Sprites.selfPortrait();
+const ph = 520, pw = ph * 360 / 480, px = 70, py = (H - ph) / 2;
+ctx.save();
+ctx.translate(px + pw / 2, py + ph / 2); ctx.rotate(-0.02);
+ctx.fillStyle = '#3a2c12'; ctx.fillRect(-pw / 2 - 16, -ph / 2 - 16, pw + 32, ph + 32);
+ctx.fillStyle = '#6b4a2a'; ctx.fillRect(-pw / 2 - 10, -ph / 2 - 10, pw + 20, ph + 20);
+ctx.drawImage(port, -pw / 2, -ph / 2, pw, ph);
+ctx.restore();
+
+/* texto */
+ctx.fillStyle = '#f5d76e';
+ctx.font = 'bold 150px Georgia';
+ctx.shadowColor = 'rgba(241,196,15,.45)'; ctx.shadowBlur = 26;
+ctx.fillText('ESLI', 540, 235);
+ctx.shadowBlur = 0;
+ctx.fillStyle = '#f6ecd0';
+ctx.font = 'italic 46px Georgia';
+ctx.fillText('Las Piezas de Mí', 545, 302);
+ctx.fillStyle = '#f5d76e';
+ctx.font = 'italic 42px Georgia';
+ctx.fillText('«Hazlo con miedo.»', 545, 390);
+ctx.fillStyle = 'rgba(246,236,208,.88)';
+ctx.font = '28px Georgia';
+ctx.fillText('Un puzzle pintado a pinceladas,', 545, 450);
+ctx.fillText('donde el miedo te hace más fuerte.', 545, 486);
+
+/* los tres, en medallones */
+function circ(img, cx, cy, r) {
+  ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.clip();
+  ctx.drawImage(img, cx - r, cy - r, r * 2, r * 2); ctx.restore();
+  ctx.lineWidth = 5; ctx.strokeStyle = '#c87f0a';
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.stroke();
+}
+circ(G.Sprites.portrait('esli', 'brave'), 595, 558, 52);
+circ(G.Sprites.portrait('annie'), 715, 558, 52);
+circ(G.Sprites.portrait('chiquis'), 835, 558, 52);
+</script>
+</body>
+</html>
