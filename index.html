@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0e1a40">
+<meta name="description" content="Esli — Las Piezas de Mí. Un puzzle pintado a mano sobre hacer las cosas con miedo.">
+<title>Esli — Las Piezas de Mí</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div id="vignette"></div>
+
+<main id="app">
+
+  <!-- TÍTULO -->
+  <section id="screen-title" class="screen active">
+    <div class="title-box">
+      <p class="title-pre">una historia pintada</p>
+      <h1 class="title-name">ESLI</h1>
+      <p class="title-sub">Las Piezas de Mí</p>
+      <p class="title-tag">«Hazlo con miedo.»</p>
+      <div class="title-btns">
+        <button id="btn-start" class="btn btn-main">Comenzar</button>
+        <button id="btn-how" class="btn">Cómo jugar</button>
+        <button id="btn-reset" class="btn btn-ghost hidden">Reiniciar aventura</button>
+      </div>
+    </div>
+    <p class="credit">pintado a pinceladas · inspirado en van gogh</p>
+  </section>
+
+  <!-- HISTORIA (intro / final) -->
+  <section id="screen-story" class="screen">
+    <div class="story-box">
+      <div id="story-text" class="story-text"></div>
+      <button id="btn-story-next" class="btn btn-main">Continuar</button>
+    </div>
+  </section>
+
+  <!-- MAPA -->
+  <section id="screen-map" class="screen">
+    <header class="map-head">
+      <h2>El camino de los cuadros</h2>
+      <button id="btn-puzzle" class="btn btn-small">Retrato <span id="pieces-count">0/12</span></button>
+    </header>
+    <div id="map-area"></div>
+  </section>
+
+  <!-- BATALLA -->
+  <section id="screen-battle" class="screen">
+    <div class="monster-zone">
+      <canvas id="monster-canvas" width="200" height="200"></canvas>
+      <div class="monster-info">
+        <p id="monster-name" class="monster-name"></p>
+        <div class="bar bar-monster"><div id="monster-hp" class="fill"></div><span id="monster-hp-txt" class="bar-txt"></span></div>
+        <p id="monster-intent" class="intent"></p>
+      </div>
+    </div>
+    <div class="battle-mid">
+      <div class="hero">
+        <canvas id="esli-canvas" width="96" height="96"></canvas>
+        <div class="hero-bars">
+          <div class="bar bar-hp"><div id="esli-hp" class="fill"></div><span id="esli-hp-txt" class="bar-txt"></span></div>
+          <div class="bar bar-miedo"><div id="esli-miedo" class="fill"></div><span id="esli-miedo-txt" class="bar-txt">miedo</span></div>
+        </div>
+      </div>
+      <div class="abilities">
+        <button id="ab-coraje" class="ability" data-kind="coraje"><span class="ab-fill"></span><span class="ab-txt">Coraje</span></button>
+        <button id="ab-annie" class="ability hidden" data-kind="annie"><span class="ab-fill"></span><span class="ab-txt">Annie</span></button>
+        <button id="ab-chiquis" class="ability hidden" data-kind="chiquis"><span class="ab-fill"></span><span class="ab-txt">Chiquis</span></button>
+      </div>
+    </div>
+    <div id="board-wrap"><div id="board"></div></div>
+    <button id="btn-flee" class="btn btn-ghost btn-flee">huir al mapa</button>
+    <div id="fct-layer"></div>
+  </section>
+
+  <!-- ROMPECABEZAS -->
+  <section id="screen-puzzle" class="screen">
+    <header class="map-head">
+      <h2>El retrato de Esli</h2>
+      <button id="btn-puzzle-back" class="btn btn-small">Volver</button>
+    </header>
+    <div class="puzzle-wrap"><canvas id="puzzle-canvas" width="360" height="480"></canvas></div>
+    <p id="puzzle-caption" class="puzzle-caption"></p>
+  </section>
+
+</main>
+
+<!-- DIÁLOGO -->
+<div id="dialog" class="hidden">
+  <div class="dlg-box">
+    <div class="dlg-portrait"><canvas id="dlg-canvas" width="96" height="96"></canvas></div>
+    <div class="dlg-body">
+      <p id="dlg-name" class="dlg-name"></p>
+      <p id="dlg-text" class="dlg-text"></p>
+      <p class="dlg-hint">toca para continuar ▸</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="hidden">
+  <div class="modal-box">
+    <div id="modal-content"></div>
+    <div id="modal-btns" class="modal-btns"></div>
+  </div>
+</div>
+
+<button id="btn-mute" class="btn-mute" aria-label="sonido">♪</button>
+
+<script src="js/art.js"></script>
+<script src="js/sprites.js"></script>
+<script src="js/data.js"></script>
+<script src="js/board.js"></script>
+<script src="js/battle.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+<script>
+if (location.search.indexOf('smoke=') > -1) {
+  var s = document.createElement('script'); s.src = 'test/driver.js'; document.body.appendChild(s);
+}
+</script>
+</body>
+</html>
